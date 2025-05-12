@@ -19,14 +19,12 @@ btnsNumbers.forEach(function(btn){
 
 btnsOperators.forEach(function(btn){
     btn.addEventListener('click', function(){
-        //addOperator();
-        console.log(btn.innerText);
+        selectOperator(btn.innerText);
     })
 });
 
 btnDot.addEventListener('click', function(){
-        //addDot();
-        console.log(btnDot.innerText);
+        addDot();
 });
 
 btnClear.addEventListener('click', function(){
@@ -35,8 +33,8 @@ btnClear.addEventListener('click', function(){
 });
 
 btnEnter.addEventListener('click', function(){
-        //addDot();
-        console.log(btnEnter.innerText);
+        calculate();
+        updateResult();
 });
 
 // defining functions
@@ -57,4 +55,46 @@ function updateResult(){
 
 function resetResult(){
     result.innerText = "0";
+}
+
+function addDot(){
+    if(actualOp.includes(".") || actualOp === "") return;
+    actualOp = actualOp.toString() + ".";
+    console.log(actualOp)
+}
+
+function selectOperator(op){
+    if(actualOp === "") return;
+    if(prevOp !== ""){
+        calculate();
+    }
+    operation = op.toString();
+    prevOp = actualOp;
+    actualOp = "";
+}
+
+function calculate(){
+    var res;
+    const previous = parseFloat(prevOp);
+    const actual = parseFloat(actualOp);
+    if(isNaN(previous) || isNaN(actual)) return;
+    switch(operation){
+        case "+":
+            res = previous + actual;
+            break;
+        case "-":
+            res = previous - actual;
+            break;
+        case '×':
+            res = previous * actual;
+            break;
+        case "÷":
+            res = previous / actual;
+            break;
+        default:
+            return;
+    }
+    actualOp = res;
+    operation = undefined;
+    prevOp = "";
 }
